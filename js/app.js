@@ -25,7 +25,7 @@ app.levelUp = function() {
     $("#points").text(that.points + " pts");
 
     //when level up, delete all gems and hearts displayed
-    this.deleteGemsHearts();
+    //this.deleteGemsHearts();
 
 
     if (this.level<=8 || (this.level>=25 && this.level%5 === 0)) {
@@ -266,32 +266,6 @@ Player.prototype.update = function() {
         this.x = this.PLAYER_RIGTH_LIMIT;
     }
 
-    //manage rock, gem and heart items
-    if (app.allItems.size > 0) {
-        app.allItems.forEach(function(item) {
-            if (this.x === item.x && (item.y - this.y <= 5 && item.y - this.y >= 0)) {
-
-                if (item instanceof Rock) {
-                    //if item is a Rock, return player to previous position
-                    //giving the efect of player being blocked by rock
-                    this.x = this.x - this.xplus;
-                    this.y = this.y - this.yplus;
-                } else {
-                    if (item instanceof Gem) {
-                        //if item is gem, add points and delete gem from map
-                        app.points = app.points + item.GEM_VALUE;
-                        $("#points").text(app.points + " pts");
-                        app.allItems.delete(item.key);
-                    } else {
-                        if (item instanceof Heart) {
-                            app.addLife(true);
-                            app.allItems.delete(item.key);
-                        }
-                    }
-                }
-            }
-        }, this);
-    }
 };
 
 //moves player through the playing area
@@ -319,7 +293,6 @@ Player.prototype.handleInput = function(key) {
     }
 };
 
-//Rocks, Gems and Hearts
 var Item = function() {
     GameObject.call(this);
     this.x = this.getXCoord();
@@ -384,58 +357,6 @@ Item.prototype.getXCoord = function() {
 Item.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
-
-var Rock = function() {
-    this.sprite = 'images/Rock.png';
-    Item.call(this);
-};
-
-Rock.prototype = Object.create(Item.prototype);
-Rock.prototype.constructor = Rock;
-
-var Gem = function() {
-    this.randomColor();
-    Item.call(this);
-};
-
-Gem.prototype = Object.create(Item.prototype);
-Gem.prototype.constructor = Gem;
-
-//randomly generate a different color gem
-Gem.prototype.randomColor = function(){
-    var num = app.randomNum();
-
-    if (num === 0) {
-        this.sprite = 'images/Gem-Blue.png';
-        this.GEM_VALUE = 300;
-    }else {
-        if (num === 1) {
-            this.sprite = 'images/Gem-Orange.png';
-            this.GEM_VALUE = 200;
-        }else {
-            this.sprite = 'images/Gem-Green.png';
-            this.GEM_VALUE = 100;
-        }
-    }
-};
-
-var Heart = function() {
-    this.sprite = 'images/Heart.png';
-    Item.call(this);
-};
-
-Heart.prototype = Object.create(Item.prototype);
-Heart.prototype.constructor = Heart;
-
-//delete all Gems and Hearts that are in map
-app.deleteGemsHearts = function() {
-    this.allItems.forEach(function(item) {
-        if (item instanceof Gem || item instanceof Heart) {
-            this.allItems.delete(item.key);
-        }
-    }, this);
-};
-
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -448,26 +369,26 @@ app.createEnemies = function() {
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down',
-        32: 'space'
-    };
+ document.addEventListener('keyup', function(e) {
+     var allowedKeys = {
+         37: 'left',
+         38: 'up',
+         39: 'right',
+         40: 'down',
+         32: 'space'
+     };
 
     //show or hide pause game modal
-    if (e.keyCode===32) {
-        app.pause = !app.pause;
-        if (app.pause === false) {
-            $("#pauseModal").modal('hide');
-        } else {
-            $("#pauseModal").modal('show');
-        }
-    }
+     if (e.keyCode===32) {
+         app.pause = !app.pause;
+         if (app.pause === false) {
+             $("#pauseModal").modal('hide');
+         } else {
+             $("#pauseModal").modal('show');
+         }
+     }
     //block player to move caracter when game is paused
-    if (app.pause===false) {
-        app.player.handleInput(allowedKeys[e.keyCode]);
-    }
-});
+      if (app.pause===false) {
+          app.player.handleInput(allowedKeys[e.keyCode]);
+     }
+ });
