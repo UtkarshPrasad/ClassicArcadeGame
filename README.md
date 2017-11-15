@@ -16,6 +16,6 @@
 ---------------------------
 - Get to the water
 - Avoid bugs
-- You win when you reach level 40
+- You win when you cross the road by avoiding collision with enemies.
 
 
