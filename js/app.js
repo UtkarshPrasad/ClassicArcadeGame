@@ -1,5 +1,3 @@
-"use strict";
-
 var app = app || {};
 
 app.level = 1;

@@ -13,7 +13,6 @@
  * the canvas' context (ctx) object globally available to make writing app.js
  * a little simpler to work with.
  */
- "use strict";
 
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
@@ -63,7 +62,7 @@ var Engine = (function(global) {
         if(app.pause===false) {
             update(dt);
             render();
-        };
+        }
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
@@ -115,8 +114,8 @@ var Engine = (function(global) {
                     app.player.y = 390;
                     //player looses one life
                     app.addLife(false);
-                };
-            };
+                }
+            }
 
         });
     }
